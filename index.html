@@ -1,0 +1,618 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSYCHOLOGICAL PROFILE</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #030303;
+    color: #e5e5e5;
+    font-family: "Courier New", monospace;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+    background: repeating-linear-gradient(
+        transparent 0px,
+        rgba(255,255,255,0.015) 1px,
+        transparent 2px
+    );
+}
+
+.background {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at center,
+        #210000 0%,
+        #090000 40%,
+        #000000 100%);
+    z-index: -1;
+}
+
+.noise {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+/* INTRO */
+
+.intro {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.warning {
+    color: #8b0000;
+    letter-spacing: 5px;
+    font-size: 12px;
+    animation: flicker 2s infinite;
+}
+
+.title {
+    font-size: clamp(35px, 8vw, 80px);
+    margin: 25px 0;
+    color: white;
+    text-shadow: 0 0 20px #700000;
+    animation: glitch 3s infinite;
+}
+
+.subtitle {
+    color: #777;
+    letter-spacing: 3px;
+    font-size: 12px;
+}
+
+.enter {
+    margin-top: 45px;
+    padding: 15px 35px;
+    background: transparent;
+    border: 1px solid #700000;
+    color: #b00000;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 3px;
+    transition: .3s;
+}
+
+.enter:hover {
+    background: #700000;
+    color: white;
+    box-shadow: 0 0 30px #700000;
+}
+
+/* MAIN CONTENT */
+
+#main {
+    display: none;
+}
+
+section {
+    min-height: 100vh;
+    padding: 80px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.section-title {
+    color: #850000;
+    letter-spacing: 5px;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: clamp(28px, 6vw, 55px);
+    margin-bottom: 25px;
+    text-shadow: 0 0 15px #400000;
+}
+
+.description {
+    max-width: 650px;
+    line-height: 2;
+    color: #999;
+    font-size: 14px;
+}
+
+/* KNIFE ANIMATION - STYLIZED SYMBOL */
+
+.knife-container {
+    margin: 60px auto;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.knife {
+    width: 150px;
+    height: 150px;
+    filter: drop-shadow(0 0 15px #8b0000);
+    animation: float 3s ease-in-out infinite,
+               knifeGlow 2s infinite alternate;
+}
+
+@keyframes float {
+    0%,100% {
+        transform: translateY(0) rotate(-8deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(8deg);
+    }
+}
+
+@keyframes knifeGlow {
+    from {
+        filter: drop-shadow(0 0 5px #500000);
+    }
+    to {
+        filter: drop-shadow(0 0 25px #a00000);
+    }
+}
+
+/* PROFILE */
+
+.profile {
+    width: min(90%, 700px);
+    border: 1px solid #300000;
+    padding: 35px;
+    background: rgba(15,0,0,.6);
+    margin-top: 30px;
+    box-shadow: 0 0 30px #150000;
+}
+
+.profile p {
+    padding: 15px;
+    border-bottom: 1px solid #220000;
+    color: #999;
+    letter-spacing: 1px;
+}
+
+.profile span {
+    color: #a00000;
+}
+
+/* IMAGE */
+
+.image-box {
+    width: min(85%, 350px);
+    height: 450px;
+    border: 1px solid #500000;
+    overflow: hidden;
+    position: relative;
+    margin: 30px auto;
+    box-shadow: 0 0 35px #220000;
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.2);
+    transition: 1s;
+}
+
+.image-box:hover img {
+    filter: grayscale(40%) contrast(1.3);
+    transform: scale(1.05);
+}
+
+.image-box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        transparent,
+        rgba(100,0,0,.35)
+    );
+}
+
+/* TEXT */
+
+.red {
+    color: #8b0000;
+}
+
+.big-text {
+    font-size: clamp(22px, 5vw, 40px);
+    line-height: 1.8;
+    letter-spacing: 3px;
+}
+
+/* GLITCH */
+
+@keyframes glitch {
+    0%, 90%, 100% {
+        transform: translate(0);
+    }
+
+    92% {
+        transform: translate(-3px, 2px);
+    }
+
+    94% {
+        transform: translate(3px, -2px);
+    }
+
+    96% {
+        transform: translate(-2px, 0);
+    }
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 50%, 52%, 100% {
+        opacity: 1;
+    }
+
+    20%, 51% {
+        opacity: .2;
+    }
+}
+
+/* BUTTON */
+
+.next {
+    margin-top: 30px;
+    color: #700000;
+    border: 1px solid #400000;
+    padding: 12px 25px;
+    background: transparent;
+    font-family: inherit;
+    letter-spacing: 2px;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #333;
+    letter-spacing: 3px;
+    font-size: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+<div class="noise"></div>
+
+<!-- INTRO -->
+
+<div class="intro" id="intro">
+
+    <p class="warning">
+        ⚠ CLASSIFIED PERSONALITY FILE ⚠
+    </p>
+
+    <h1 class="title">
+        MIND ERROR
+    </h1>
+
+    <p class="subtitle">
+        UNPREDICTABLE • UNFILTERED • DARK
+    </p>
+
+    <button class="enter" onclick="enterSite()">
+        ENTER THE MIND
+    </button>
+
+</div>
+
+<!-- MAIN WEBSITE -->
+
+<div id="main">
+
+    <!-- SECTION 1 -->
+
+    <section>
+
+        <p class="section-title">
+            01 / WARNING
+        </p>
+
+        <h2>
+            YOU SHOULD<br>
+            KNOW WHAT<br>
+            YOU'RE DEALING WITH.
+        </h2>
+
+        <p class="description">
+            This isn't a beautiful story.
+            <br><br>
+            This is a personality that doesn't
+            always know how to remain calm.
+        </p>
+
+        <button class="next" onclick="scrollToSection(1)">
+            CONTINUE ↓
+        </button>
+
+    </section>
+
+    <!-- SECTION 2 -->
+
+    <section>
+
+        <p class="section-title">
+            02 / ANGER
+        </p>
+
+        <h2 class="red">
+            ANGER.
+        </h2>
+
+        <p class="description">
+            My patience has limits.
+            <br>
+            My reactions aren't always reasonable.
+            <br><br>
+            Sometimes my anger becomes louder
+            than my logic.
+        </p>
+
+        <div class="knife-container">
+
+            <!-- Stylized floating knife symbol -->
+
+            <svg class="knife"
+                 viewBox="0 0 200 200"
+                 xmlns="http://www.w3.org/2000/svg">
+
+                <g transform="rotate(-35 100 100)">
+
+                    <!-- Abstract blade -->
+                    <path
+                        d="M95 25
+                           L112 25
+                           L120 100
+                           L95 100
+                           Z"
+                        fill="#d0d0d0"/>
+
+                    <path
+                        d="M112 25
+                           L120 100
+                           L108 94
+                           Z"
+                        fill="#777777"/>
+
+                    <!-- Handle -->
+                    <rect
+                        x="94"
+                        y="100"
+                        width="27"
+                        height="65"
+                        rx="5"
+                        fill="#300000"/>
+
+                    <!-- Handle detail -->
+                    <rect
+                        x="100"
+                        y="108"
+                        width="15"
+                        height="49"
+                        rx="3"
+                        fill="#850000"/>
+
+                    <!-- Guard -->
+                    <rect
+                        x="85"
+                        y="94"
+                        width="45"
+                        height="10"
+                        rx="3"
+                        fill="#777777"/>
+
+                </g>
+
+            </svg>
+
+        </div>
+
+        <p class="description">
+            ANGER IS A STATE.
+            <br>
+            NOT AN EXCUSE.
+        </p>
+
+    </section>
+
+    <!-- SECTION 3 -->
+
+    <section>
+
+        <p class="section-title">
+            03 / PERSONALITY
+        </p>
+
+        <h2>
+            PROFILE_404
+        </h2>
+
+        <div class="profile">
+
+            <p>
+                <span>ANGER</span>
+                — HIGH
+            </p>
+
+            <p>
+                <span>PATIENCE</span>
+                — LOW
+            </p>
+
+            <p>
+                <span>POSSESSIVENESS</span>
+                — PRESENT
+            </p>
+
+            <p>
+                <span>OVERTHINKING</span>
+                — CONSTANT
+            </p>
+
+            <p>
+                <span>STUBBORNNESS</span>
+                — EXTREME
+            </p>
+
+            <p>
+                <span>FILTER</span>
+                — SOMETIMES ABSENT
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- SECTION 4 -->
+
+    <section>
+
+        <p class="section-title">
+            04 / THE DARK SIDE
+        </p>
+
+        <h2 class="red">
+            TOXIC.
+        </h2>
+
+        <p class="description">
+            I can be difficult.
+            <br>
+            I can become possessive.
+            <br>
+            I can overreact.
+            <br>
+            I can be stubborn enough
+            to refuse to listen.
+            <br><br>
+            Awareness doesn't erase flaws.
+        </p>
+
+    </section>
+
+    <!-- SECTION 5 IMAGE -->
+
+    <section>
+
+        <p class="section-title">
+            05 / VISUAL RECORD
+        </p>
+
+        <h2>
+            THE OTHER SIDE.
+        </h2>
+
+        <div class="image-box">
+
+            <img src="anger.jpg"
+                 alt="Dark personality portrait"
+                 onerror="this.style.display='none'">
+
+        </div>
+
+        <p class="description">
+            THIS ISN'T A PRETTY SIDE.
+            <br><br>
+            THIS IS THE SIDE
+            I DON'T EXPLAIN.
+        </p>
+
+    </section>
+
+    <!-- SECTION 6 -->
+
+    <section>
+
+        <p class="section-title">
+            06 / FINAL NOTICE
+        </p>
+
+        <h2 class="red">
+            NO FILTER.
+        </h2>
+
+        <p class="big-text">
+            I AM NOT ALWAYS CALM.
+            <br>
+            I AM NOT ALWAYS REASONABLE.
+            <br>
+            I AM NOT ALWAYS EASY.
+        </p>
+
+        <br>
+
+        <p class="description">
+            But I am responsible
+            for what I choose to do
+            with my emotions.
+        </p>
+
+    </section>
+
+    <footer>
+        END OF PERSONALITY FILE.
+    </footer>
+
+</div>
+
+<script>
+
+function enterSite() {
+
+    document.getElementById("intro").style.display = "none";
+
+    document.getElementById("main").style.display = "block";
+
+    document.body.style.overflow = "auto";
+
+    window.scrollTo(0,0);
+
+}
+
+function scrollToSection(index) {
+
+    const sections = document.querySelectorAll("section");
+
+    sections[index + 1].scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+</script>
+
+</body>
+</html>
